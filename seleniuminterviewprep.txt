@@ -1,0 +1,244 @@
+selenium interview questions :
+what is webdriver ?
+webdriver is an remote control interface that enables introspection and control of user agents 
+*control of browser
+*selection of webelements 
+* debugging aids
+key methods are driver.get(string), driver.findelement(by)
+
+what is chromedriver in selenium?
+
+chromedriver is a class
+
+----------------------------------------------------------------------------------
+important keywords 
+	close()	
+						Close the current window, quitting the browser if it's the last window currently open.
+WebElement	findElement​(By by)	
+						Find the first WebElement using the given method.
+java.util.List<WebElement>	findElements​(By by)	
+						Find all elements within the current page using the given mechanism.
+void	get​(java.lang.String url)	
+						Load a new web page in the current browser window.
+java.lang.String	getCurrentUrl()	
+						Get a string representing the current URL that the browser is looking at.
+java.lang.String	getPageSource()	
+						Get the source of the last loaded page.
+java.lang.String	getTitle()	
+						Get the title of the current page.
+java.lang.String	getWindowHandle()	
+						Return an opaque handle to this window that uniquely identifies it within this driver instance.
+java.util.Set<java.lang.String>	getWindowHandles()	
+						Return a set of window handles which can be used to iterate over all open windows of this WebDriver instance by passing them to switchTo().WebDriver.Options.window()
+WebDriver.Options	manage()	
+						Gets the Option interface
+WebDriver.Navigation	navigate()	
+						An abstraction allowing the driver to access the browser's history and to navigate to a given URL.
+void	quit()	
+						Quits this driver, closing every associated window.
+WebDriver.TargetLocator	switchTo()	
+						Send future commands to a different frame or window.
+---------------------------------------------------------------------------------------------------------------
+how to import data from file ?
+File file = new file(filewithpath)
+FileInputStream fileInputStream= new FileInputStream(file);
+		Properties properties=new Properties();
+		properties.load(fileInputStream);
+username.sendKeys(properties.getProperty("username"));
+-----------------------------------------
+how to extract data from excel ?
+
+File file=new File("C:\\Users\\mfcwl\\Documents\\credentials_all.xlsx");
+System.out.println("read the filepath");
+//create an object of fileinputstream to read excel file
+FileInputStream fis= new FileInputStream(file);
+System.out.println("read the fileinputstream");
+//creating workbook instance that refers .xlsxfile
+XSSFWorkbook wb=new XSSFWorkbook(fis);
+System.out.println("read the workbook");
+//creating sheet object
+XSSFSheet sheet=wb.getSheetAt(0);
+System.out.println("read the sheet");
+System.out.println(sheet.getRow(0).getCell(0).getstringcellvalue);
+------------------------------
+how to take screenshot in selenium?
+//convert webdriver object to take screenshot
+TakesScreenshot scrshot = ((TakesScreenshot)driver);
+//call getscreenshotAs method to create image file 
+		File SrcFile = scrshot.getScreenshotAs(OutputType.FILE);
+//move image file to new destination 
+		File DestFile = new File("C:\\Users\\mfcwl\\Desktop\\screenshotsfolder\\.png");
+					or
+File DestFile = new File(system.getproperty("user.dir)+"C:\\Users\\mfcwl\\Desktop\\screenshotsfolder\\.png");
+//copy file at destination
+		FileUtils.copyFile(SrcFile, DestFile);
+
+---------------------------------------------------------------------------
+how to take webelement screent shot and all the webpages flow ?
+-----------------------------------------------------------------
+how to execute without launching the browser?
+WebDriverManager.chromedriver().setup();
+		ChromeOptions options=new ChromeOptions();
+		options.addArguments("--headless");
+		WebDriver driver = new ChromeDriver(options);
+		driver.manage().window().maximize();
+--------------------------------------------------------------------
+how to extract data from file ?
+------------------------------------------
+window handling in selenium?
+driver.getwindowhandle
+driver.getwindowhandles it takes set(which doesnt takes dup[licates)
+driver.switchto
+driver.action
+----------------------------------
+how to locate an element?
+by.id
+by.name 
+by.tagname
+by.link
+by.classname
+by.partiallinktext
+by.css
+xpath :
+xpath = //tagname[@attribute='value']
+absulute xpath 
+it starts from the root not usable 
+
+relative xpath
+
+starts from the middle of the html dom structure 
+xpath = //tagname[@attribute='value']
+xpath = //*[contains(type , 'sub)]
+--------------------------------
+what is the use of actions class ?
+actions class is used to control the actions of mouse and keyboard 
+we have several methods 
+* at the end we have to use build and perform 
+Actions act = new actions(driver)
+act.contextclick().build().perform() performs right click 
+act.doubleclick() performs double click
+act.draganddrop(source , target) 
+act.movetoelement it moves to a particular element
+
+ * to do scrolling we use javascript executions
+ A scroll is a javascript method . where javascript executor is an interface that enables qas to run javascript methods 
+javascriptExecutor js = (javascriptexecutor)driver 
+js.executescript("window.scrollby(0,250)""")
+scrolltobottomofpage : js.executescript(window.scrollby(0,document.body.scrollheight)
+ scrolltopofpage : js.executescript(window.scrollby(0,-document.body.scrollheight)
+to scroll to aparticular element 
+   js.executescript(arguments(0).scrollintoview(); contactelement)
+
+-----------------------
+how to connect to a database in selenium 
+driver 
+
+connection 
+connection con = drivermanager.getconnection(dburl,username,password)
+statement 
+statement stat = con.createstatement
+stat.executequery(select * from employee)
+resultset
+sqlexception 
+close the db connection 
+db.close
+---------------------------
+
+
+
+---------------------------
+we use gettext() method to get any data if a particular webelement
+what are the frames in selenium?
+--------------------------------------------------------------------
+what are alerts in selenium ?
+simple alert 
+prompt alert 
+confirmation alert 
+Alert alert = driver.switchto().alert 
+Alert is an interface provides various methods 
+driver.switchto().alert().accept(); (accepts the alert)
+driver.switchto().alert().dismiss();(closes the alert)
+driver.switchto().alert().gettext();(to capture the alert message)
+driver.switchto().alert().sendkeys("string text");(to send some data to alertbox)
+-----------------------------------------------------------
+driver.findelement gives first element finds on the DOM (it throws the exception elementnotfound)
+Driver.findelements gives the list of all webelement in dom (it will not throw the exception it shows size as 0)
+Lis<webelements> ls = driver.findelements(by.xpath)
+for(webelement items : menuitems){
+syso("items are "+menuitems)
+}
+---------------------------------------------------
+waits in selenium 
+implicit wait 
+
+It directs the webdriver to wait for certain amount of time untill it throws element not visible exception 
+
+driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+explicit wait	
+the WebDriver is directed to wait until a certain condition occurs before proceeding with executing the code.
+fluentwait 
+Fluent Wait in Selenium marks the maximum amount of time for Selenium WebDriver to wait for a certain condition (web element) becomes visible
+-------------------------------------------------------
+Autoit:
+AutoIT is a third-party tool that gives Selenium a helping hand to handle pop-ups like Windows Authentication pop up, 
+Flash applications, Desktop application and so on.
+-------------------------
+exceptions in selenium:
+checked exceptions:
+handled during the process of writing the code before compilation 
+unchecked exceptions
+
+stateelementreference exception
+nosuchelementexception
+
+-----------------------------------------------------------------------------------testng-------------------------------------------------------------------------
+TESTNG 
+FOR PARALLEL TESTING 
+FOR ASSERTIONS 
+FOR ANNOTATIONS 
+
+ANNOTATIONS :
+order 
+ @beforesuite 
+ @beforetest
+ @beforeclass
+ @beforemethod
+ @test
+ @aftermethod
+ @afterclass
+ @aftertest
+ @aftersuite
+----------------------------------------------------------------------------------cucumber-------------------------------------------------------------------------
+
+what is background keyword in cucumber ?
+Background keyword is used when we have common steps in all scenarios to run the same scenarios befor every scenario then we give those steps in background .
+
+Feature 
+Background 
+scenario
+scenario
+---------------
+what are hooks in cucumber ?
+starting a webdriver 
+setting up dbconnections 
+setting up test data 
+setup browser cookies 
+Navigation to certain page 
+@before 
+Execution of testcases 
+@after 
+killing the webdriver 
+closing db connections 
+clearing the test data
+clearing browser cookies 
+logging out from the application 
+printing reports or logs 
+take screenshots on error 
+or anything after the test
+------------------------
+
+
+
+
+
+
